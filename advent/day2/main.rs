@@ -8,54 +8,18 @@ fn read_lines(file_path: &str) -> Result<Lines<BufReader<File>>> {
 }
 
 fn main() {
-    let mut col1: Vec<i32> = Vec::new();
-    let mut col2: Vec<i32> = Vec::new();
-    match read_lines("./data.csv") {
+    let mut data: Vec<i32> = Vec::new();
+    match read_lines("./data.txt") {
         Ok(lines) => {
             for line in lines {
                 if let Ok(d) = line {
-                    let mut d: Vec<i32>= d.split("   ").parse::<i32>().collect();
-                    println!("print d {:?}", d);
+                    let dt: Vec<&str>= d.split(" ").collect();
+                    data = dt.iter().parse::<i32>().unwrap().collect();
+                    println!("print data {:?} \n", data[0]);
                 }
             }
         }
         Err(e) => println!("Error reading file: {}", e),
     }
-
-
-    // sort
-    col1.sort();
-    col2.sort();
-
-    // part 1:
-    let mut diff: Vec<i32> = Vec::new();
-    for n in 0..col1.len() {
-        diff.push((col1[n] - col2[n]).abs());
-    }
-    let mut total: i32 = 0;
-    for n in 0..diff.len() {
-        total = total + diff[n];
-    }
-    println!("part1 answer {:?}\n", total);
-
-    // part 2:
-    let mut data: Vec<i32> = Vec::new();
-    let mut count: i32;
-    for n in 0..col1.len() {
-        count = 0;
-        for m in 0..col2.len() {
-            if col1[n] == col2[m] {
-                count = count + 1;
-            }
-        }
-        data.push(count * col1[n]);
-    }
-
-    //println!("data {:?}, len : {}", data, data.len());
-    let mut count: i32 = 0;
-    for n in 0..data.len(){
-        count = count + data[n];
-    }
-    println!("part2 answer: {}\n", count);
-
+    //println!("print data {:?}", data);
 }
